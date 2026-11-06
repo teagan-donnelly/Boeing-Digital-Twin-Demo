@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Boeing Supply Chain Twin</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="masthead">
+        <div>
+          <p class="eyebrow">Boeing digital twin demo</p>
+          <h1>SUPPLY CHAIN TWIN:<br />SHOULD BOEING MAKE THIS PART ITSELF?</h1>
+        </div>
+        <div class="badge badge-primary">Decision engine</div>
+      </header>
+
+      <section class="summary-strip">
+        <div class="kpi">
+          <span class="label">Parts evaluated</span>
+          <strong id="parts-count">10</strong>
+        </div>
+        <div class="kpi">
+          <span class="label">Make now</span>
+          <strong id="make-now-count">2</strong>
+        </div>
+        <div class="kpi">
+          <span class="label">Qualify</span>
+          <strong id="qualify-count">2</strong>
+        </div>
+        <div class="kpi">
+          <span class="label">Keep buying</span>
+          <strong id="buy-count">4</strong>
+        </div>
+        <div class="kpi">
+          <span class="label">Second supplier</span>
+          <strong id="second-supplier-count">2</strong>
+        </div>
+      </section>
+
+      <main class="content-grid">
+        <section class="panel table-panel">
+          <div class="section-header">
+            <h2>New part columns</h2>
+            <button id="reset-part" class="ghost-button" type="button">Reset to defaults</button>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Part</th>
+                  <th>Supplier price / part</th>
+                  <th>In-house cost / part</th>
+                  <th>Qualification cost</th>
+                  <th>Orders / year</th>
+                  <th>PE-owned</th>
+                  <th>AI demand pressure</th>
+                </tr>
+              </thead>
+              <tbody id="part-table"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <aside class="panel controls-panel">
+          <div class="section-header">
+            <h2>Explore mode</h2>
+          </div>
+
+          <label class="field">
+            <span>Part</span>
+            <select id="part-select"></select>
+          </label>
+
+          <label class="field">
+            <span>Supply threat</span>
+            <div class="inline-field">
+              <input id="threat-slider" type="range" min="0" max="100" step="1" />
+              <output id="threat-output">0</output>
+            </div>
+          </label>
+
+          <label class="field">
+            <span>On-time %</span>
+            <div class="inline-field">
+              <input id="ontime-slider" type="range" min="0" max="100" step="1" />
+              <output id="ontime-output">0%</output>
+            </div>
+          </label>
+
+          <label class="field">
+            <span>In-house share</span>
+            <div class="inline-field">
+              <input id="share-slider" type="range" min="0" max="100" step="1" />
+              <output id="share-output">0%</output>
+            </div>
+          </label>
+
+          <label class="field">
+            <span>Supplier price</span>
+            <input id="supplier-price" type="number" step="1" />
+          </label>
+
+          <label class="field">
+            <span>In-house cost</span>
+            <input id="inhouse-cost" type="number" step="1" />
+          </label>
+
+          <div class="decision-summary">
+            <div class="decision-head">
+              <span>Decision</span>
+              <span id="decision-badge" class="badge decision-badge">BUY</span>
+            </div>
+            <p id="decision-reason">Low threat and low benefit keep the current supplier.</p>
+          </div>
+        </aside>
+      </main>
+
+      <section class="panel metrics-panel">
+        <div class="section-header">
+          <h2>Worth it?</h2>
+        </div>
+
+        <div class="metrics-grid">
+          <div class="metric-box">
+            <span class="label">Time benefit</span>
+            <strong id="time-benefit">0</strong>
+          </div>
+          <div class="metric-box">
+            <span class="label">Supply threat</span>
+            <strong id="supply-threat">0</strong>
+          </div>
+          <div class="metric-box">
+            <span class="label">Net year-one value</span>
+            <strong id="net-value">$0</strong>
+          </div>
+          <div class="metric-box">
+            <span class="label">Decision path</span>
+            <strong id="decision-path">BUY</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel matrix-panel">
+        <div class="section-header">
+          <h2>Make-or-buy matrix</h2>
+        </div>
+        <div class="matrix-wrap">
+          <svg id="matrix-chart" viewBox="0 0 420 260" aria-label="Make or buy matrix chart">
+            <rect x="0" y="0" width="420" height="260" fill="#0d1724" rx="14"></rect>
+            <line x1="210" y1="10" x2="210" y2="250" stroke="#56d0ff" stroke-width="2"></line>
+            <line x1="10" y1="130" x2="410" y2="130" stroke="#56d0ff" stroke-width="2"></line>
+            <text x="250" y="24" font-size="12" fill="#dbeafe">Build it ourselves</text>
+            <text x="20" y="24" font-size="12" fill="#dbeafe">Buy more</text>
+            <text x="24" y="235" font-size="12" fill="#dbeafe">Low risk</text>
+            <text x="240" y="235" font-size="12" fill="#dbeafe">Higher risk</text>
+            <g id="matrix-points"></g>
+          </svg>
+        </div>
+      </section>
+
+      <section class="panel acceptance-panel">
+        <div class="section-header">
+          <h2>Acceptance checks</h2>
+        </div>
+        <div class="acceptance-list" id="acceptance-list"></div>
+      </section>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
